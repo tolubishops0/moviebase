@@ -3,19 +3,24 @@ import axios from "axios";
 import MovieCard from "./components/MovieCard";
 import "./index.css";
 import Youtube from "react-youtube";
-import { useDetectAdBlock } from "adblock-detect-react";
+import SearchInput from "./components/SearchInput";
+import MovieTrailer from "./MovieTrailer";
+import MovieDetail from "./components/MovieDetail";
 
 function App() {
-  
-
   const [movies, setMovies] = useState([]);
   const [searchkey, setSearchkey] = useState("");
   const [selectedMovie, setSelectedMovie] = useState({});
   const [playTrailer, setPlayTrailer] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(true);
 
   const imagePath = "http://image.tmdb.org/t/p/w500";
   const apiUrl = "http://api.themoviedb.org/3/";
   const key = "4a76764757632a034cd9bf6c1355df72";
+
+  const toggleMode = () => {
+    setIsDarkMode(!isDarkMode);
+  };
 
   const getmovies = async (searchkey) => {
     const type = searchkey ? "search" : "discover";
@@ -46,13 +51,9 @@ function App() {
     const movieData = await getmovie(movie.id);
     setSelectedMovie(movieData);
   };
-const adBlockDetected = useDetectAdBlock();
+
   useEffect(() => {
     getmovies();
-    if (adBlockDetected) {
-      window.alert("ad block detected");
-    }
-    window.alert("no block detected");
   }, []);
 
   const searchMovies = (event) => {
@@ -67,65 +68,50 @@ const adBlockDetected = useDetectAdBlock();
     );
 
     return trailer ? (
-      <Youtube
-        videoId={trailer?.id}
-        containerClassName="youtube-container"
-        opts={{
-          width: "100%",
-          height: "100%",
-          playerVars: {
-            autoplay: 1,
-            controls: 0,
-            origin: "https://localhost:3000",
-          },
-        }}
-      />
+        <Youtube
+          videoId={trailer.key}
+          className="youtube-container"
+          opts={{
+            width: "100%",
+            height: "100%",
+            playerVars: {
+              autoplay: 1,
+              controls: 0,
+            },
+          }}
+        />
     ) : null;
   };
 
   return (
-    <div>
-      <h1>welcome</h1>
-      <form onSubmit={searchMovies}>
-        <input
-          type="text"
-          onChange={(event) => setSearchkey(event.target.value)}
-        />
-        <button type="submit">search</button>
-      </form>
+    <div className={`${isDarkMode ? "dark-mode" : "light-mode"} py-2`}>
+      <div className="toggle-icon-container">
+        <ion-icon name="toggle" onClick={toggleMode}>
+          {isDarkMode ? "Light Mode" : "Dark Mode"}
+        </ion-icon>
+      </div>
+      <SearchInput
+        isDarkMode={isDarkMode}
+        searchMovies={searchMovies}
+        setSearchkey={setSearchkey}
+      />
       <div
+        className="hero flex flex-col mt-3 py-8 px-3 h-[18rem] bg-no-repeat bg-cover md:py-8 md:h-[22rem] lg:h-[30rem]"
         style={{
-          backgroundImage: `url(${imagePath}${selectedMovie?.backdrop_path})`,
+          backgroundImage: selectedMovie.backdrop_path
+            ? `url(${imagePath}${selectedMovie.backdrop_path})`
+            : null,
         }}
       >
-        {playTrailer ? (
-          <button
-            onClick={() => {
-              setPlayTrailer(false);
-            }}
-          >
-            close
-          </button>
-        ) : null}
-        {selectedMovie?.videos && playTrailer ? renderTrailer() : null}
-        {playTrailer ? null : (
-          <button
-            onClick={() => {
-              setPlayTrailer(true);
-              console.log("clicked", selectedMovie.title);
-            }}
-          >
-            play trailer
-          </button>
-        )}
-        <h2>{selectedMovie.title}</h2>
-        <p>{selectedMovie.overview ? selectedMovie.overview : null}</p>
+        <MovieTrailer
+          renderTrailer={renderTrailer}
+          selectedMovie={selectedMovie}
+          playTrailer={playTrailer}
+          setPlayTrailer={setPlayTrailer}
+        />
+        <MovieDetail selectedMovie={selectedMovie} playTrailer={playTrailer} />
       </div>
-      {movies?.map((movie) => {
-        return (
-          <MovieCard key={movie.id} movie={movie} selectMovie={selectMovie} />
-        );
-      })}
+      <MovieCard selectMovie={selectMovie} movies={movies} />
     </div>
   );
 }
