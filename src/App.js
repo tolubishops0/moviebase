@@ -12,10 +12,10 @@ function App() {
   const [searchkey, setSearchkey] = useState("");
   const [selectedMovie, setSelectedMovie] = useState({});
   const [playTrailer, setPlayTrailer] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(true);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
-  const imagePath = "http://image.tmdb.org/t/p/w500";
-  const apiUrl = "http://api.themoviedb.org/3/";
+  const imagePath = "https://image.tmdb.org/t/p/w500";
+  const apiUrl = "https://api.themoviedb.org/3/";
   const key = "4a76764757632a034cd9bf6c1355df72";
 
   const toggleMode = () => {
@@ -68,18 +68,18 @@ function App() {
     );
 
     return trailer ? (
-        <Youtube
-          videoId={trailer.key}
-          className="youtube-container"
-          opts={{
-            width: "100%",
-            height: "100%",
-            playerVars: {
-              autoplay: 1,
-              controls: 0,
-            },
-          }}
-        />
+      <Youtube
+        videoId={trailer.key}
+        className="youtube-container"
+        opts={{
+          width: "100%",
+          height: "100%",
+          playerVars: {
+            autoplay: 1,
+            controls: 0,
+          },
+        }}
+      />
     ) : null;
   };
 

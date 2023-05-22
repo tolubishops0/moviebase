@@ -11,7 +11,7 @@ function SearchInput({ setSearchkey, searchMovies, isDarkMode }) {
         <div
           className={`${
             isDarkMode ? "border-[#f3f3f5]" : "border-[#201E20] "
-          } flex border-2 rounded`}
+          } flex border-[1px] rounded`}
         >
           <input
             onChange={(event) => setSearchkey(event.target.value)}

@@ -12,7 +12,7 @@ function MovieCard({ movies, selectMovie }) {
           return (
             <div
               key={movie.id}
-              className="px-2 flex-shrink-0 cursor-pointer object-cover transition-transform duration-300 transform hover:scale-110"
+              className="px-2 flex-shrink-0 cursor-pointer object-cover transition-transform duration-300 transform lg:hover:scale-110"
               onClick={() => selectMovie(movie)}
             >
               {movie.poster_path && (

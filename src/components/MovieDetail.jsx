@@ -6,7 +6,7 @@ function MovieDetail({ selectedMovie }) {
 
 
   return (
-    <div className="text-white py-1 md:mt-6 w-[18rem] md:w-[40rem] lg:w-[80%] text-justify">
+    <div className="text-white py-1 md:mt-6 w-[19rem] md:w-[40rem] lg:w-[80%] text-justify">
       <h2 className="font-bold text-lg md:text-2xl lg:text-4xl">
         {selectedMovie?.title}
       </h2>
