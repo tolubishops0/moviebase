@@ -85,7 +85,7 @@ function App() {
 
   return (
     <div className={`${isDarkMode ? "dark-mode" : "light-mode"} py-2`}>
-      <div className="toggle-icon-container">
+      <div className="toggle-icon-container md:pr-6 lg:pr-12">
         <ion-icon name="toggle" onClick={toggleMode}>
           {isDarkMode ? "Light Mode" : "Dark Mode"}
         </ion-icon>
@@ -96,7 +96,7 @@ function App() {
         setSearchkey={setSearchkey}
       />
       <div
-        className="hero flex flex-col mt-3 py-8 px-3 h-[18rem] bg-no-repeat bg-cover md:py-8 md:h-[22rem] lg:h-[30rem]"
+        className="hero flex flex-col gap-y-[0.2rem] md:gap-y-2 justify-center pl-3 md:pl-6 lg:pl-12 mt-3 h-[18rem] bg-no-repeat bg-cover md:h-[22rem] lg:h-[30rem]"
         style={{
           backgroundImage: selectedMovie.backdrop_path
             ? `url(${imagePath}${selectedMovie.backdrop_path})`
